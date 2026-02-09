@@ -59,16 +59,10 @@ class DisableAutomaticControl(_message.Message):
     def __init__(self) -> None: ...
 
 class AutomaticControlChannelParams(_message.Message):
-    __slots__ = ("target_temperature", "kp", "ki", "kd")
+    __slots__ = ("target_temperature",)
     TARGET_TEMPERATURE_FIELD_NUMBER: _ClassVar[int]
-    KP_FIELD_NUMBER: _ClassVar[int]
-    KI_FIELD_NUMBER: _ClassVar[int]
-    KD_FIELD_NUMBER: _ClassVar[int]
     target_temperature: float
-    kp: float
-    ki: float
-    kd: float
-    def __init__(self, target_temperature: _Optional[float] = ..., kp: _Optional[float] = ..., ki: _Optional[float] = ..., kd: _Optional[float] = ...) -> None: ...
+    def __init__(self, target_temperature: _Optional[float] = ...) -> None: ...
 
 class SetAutomaticControlParams(_message.Message):
     __slots__ = ("channel_0", "channel_1", "channel_2")
