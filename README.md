@@ -5,5 +5,5 @@ Auto-generated Python bindings with type stubs.
 **Target Platform**: ARM64 (NVIDIA Jetson AGX Orin BSP 6.2)
 **Build Architecture**: aarch64
 
-Generated: 2026-02-15 02:59:08 UTC
-Commit: 6327e8d408ebb390c15b1a12ac435f90abf273b3
+Generated: 2026-02-15 10:33:05 UTC
+Commit: 60981478e1067e20296a5c3790cb691e46ab7b36
