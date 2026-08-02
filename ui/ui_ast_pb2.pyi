@@ -66,6 +66,14 @@ class PatchKind(int, metaclass=_enum_type_wrapper.EnumTypeWrapper):
     PATCH_KIND_WIDGET_VALUE: _ClassVar[PatchKind]
     PATCH_KIND_NDC_X2: _ClassVar[PatchKind]
     PATCH_KIND_NDC_Y2: _ClassVar[PatchKind]
+    PATCH_KIND_SUBJECT_VALUE: _ClassVar[PatchKind]
+
+class PatchEncoding(int, metaclass=_enum_type_wrapper.EnumTypeWrapper):
+    __slots__ = ()
+    PATCH_ENCODING_UNSPECIFIED: _ClassVar[PatchEncoding]
+    PATCH_ENCODING_PADDED_VARINT: _ClassVar[PatchEncoding]
+    PATCH_ENCODING_DOUBLE_LE: _ClassVar[PatchEncoding]
+    PATCH_ENCODING_FLOAT_LE: _ClassVar[PatchEncoding]
 
 class GestureKind(int, metaclass=_enum_type_wrapper.EnumTypeWrapper):
     __slots__ = ()
@@ -403,6 +411,11 @@ PATCH_KIND_DELTA: PatchKind
 PATCH_KIND_WIDGET_VALUE: PatchKind
 PATCH_KIND_NDC_X2: PatchKind
 PATCH_KIND_NDC_Y2: PatchKind
+PATCH_KIND_SUBJECT_VALUE: PatchKind
+PATCH_ENCODING_UNSPECIFIED: PatchEncoding
+PATCH_ENCODING_PADDED_VARINT: PatchEncoding
+PATCH_ENCODING_DOUBLE_LE: PatchEncoding
+PATCH_ENCODING_FLOAT_LE: PatchEncoding
 GESTURE_KIND_PAN_MOVE: GestureKind
 GESTURE_KIND_PAN_END: GestureKind
 GESTURE_KIND_TAP: GestureKind
@@ -672,7 +685,7 @@ class Screen(_message.Message):
     def __init__(self, root: _Optional[_Union[WidgetNode, _Mapping]] = ..., subjects: _Optional[_Iterable[_Union[SubjectDeclaration, _Mapping]]] = ...) -> None: ...
 
 class WidgetNode(_message.Message):
-    __slots__ = ("type", "x", "y", "text", "bindings", "event", "layout", "children", "style_groups", "obj_props", "button_props", "label_props", "slider_props", "image_props", "arc_props", "bar_props", "switch_props", "checkbox_props", "dropdown_props", "roller_props", "textarea_props", "spinbox_props", "spinner_props", "led_props", "line_props", "scale_props", "buttonmatrix_props", "table_props", "tabview_props", "chart_props", "host_proxy_props", "visibility", "bind_formats", "obj_flags", "obj_flags_clear", "states", "scroll_dir", "grid_col_dsc", "grid_row_dsc", "bare", "in_tab_bar", "checked_when", "enabled_when", "color_when", "uid", "gestures")
+    __slots__ = ("type", "x", "y", "text", "bindings", "event", "layout", "children", "style_groups", "obj_props", "button_props", "label_props", "slider_props", "image_props", "arc_props", "bar_props", "switch_props", "checkbox_props", "dropdown_props", "roller_props", "textarea_props", "spinbox_props", "spinner_props", "led_props", "line_props", "scale_props", "buttonmatrix_props", "table_props", "tabview_props", "chart_props", "host_proxy_props", "visibility", "bind_formats", "obj_flags", "obj_flags_clear", "states", "scroll_dir", "grid_col_dsc", "grid_row_dsc", "bare", "in_tab_bar", "checked_when", "enabled_when", "color_when", "hit_slop", "uid", "gestures")
     class BindingsEntry(_message.Message):
         __slots__ = ("key", "value")
         KEY_FIELD_NUMBER: _ClassVar[int]
@@ -731,6 +744,7 @@ class WidgetNode(_message.Message):
     CHECKED_WHEN_FIELD_NUMBER: _ClassVar[int]
     ENABLED_WHEN_FIELD_NUMBER: _ClassVar[int]
     COLOR_WHEN_FIELD_NUMBER: _ClassVar[int]
+    HIT_SLOP_FIELD_NUMBER: _ClassVar[int]
     UID_FIELD_NUMBER: _ClassVar[int]
     GESTURES_FIELD_NUMBER: _ClassVar[int]
     type: WidgetType
@@ -777,9 +791,10 @@ class WidgetNode(_message.Message):
     checked_when: VisibilityBinding
     enabled_when: VisibilityBinding
     color_when: ColorBinding
+    hit_slop: int
     uid: int
     gestures: _containers.RepeatedCompositeFieldContainer[GestureSpec]
-    def __init__(self, type: _Optional[_Union[WidgetType, str]] = ..., x: _Optional[int] = ..., y: _Optional[int] = ..., text: _Optional[str] = ..., bindings: _Optional[_Mapping[str, str]] = ..., event: _Optional[_Union[EventBinding, _Mapping]] = ..., layout: _Optional[_Union[Layout, _Mapping]] = ..., children: _Optional[_Iterable[_Union[WidgetNode, _Mapping]]] = ..., style_groups: _Optional[_Iterable[_Union[StyleGroup, _Mapping]]] = ..., obj_props: _Optional[_Union[ObjProps, _Mapping]] = ..., button_props: _Optional[_Union[ButtonProps, _Mapping]] = ..., label_props: _Optional[_Union[LabelProps, _Mapping]] = ..., slider_props: _Optional[_Union[SliderProps, _Mapping]] = ..., image_props: _Optional[_Union[ImageProps, _Mapping]] = ..., arc_props: _Optional[_Union[ArcProps, _Mapping]] = ..., bar_props: _Optional[_Union[BarProps, _Mapping]] = ..., switch_props: _Optional[_Union[SwitchProps, _Mapping]] = ..., checkbox_props: _Optional[_Union[CheckboxProps, _Mapping]] = ..., dropdown_props: _Optional[_Union[DropdownProps, _Mapping]] = ..., roller_props: _Optional[_Union[RollerProps, _Mapping]] = ..., textarea_props: _Optional[_Union[TextareaProps, _Mapping]] = ..., spinbox_props: _Optional[_Union[SpinboxProps, _Mapping]] = ..., spinner_props: _Optional[_Union[SpinnerProps, _Mapping]] = ..., led_props: _Optional[_Union[LedProps, _Mapping]] = ..., line_props: _Optional[_Union[LineProps, _Mapping]] = ..., scale_props: _Optional[_Union[ScaleProps, _Mapping]] = ..., buttonmatrix_props: _Optional[_Union[ButtonMatrixProps, _Mapping]] = ..., table_props: _Optional[_Union[TableProps, _Mapping]] = ..., tabview_props: _Optional[_Union[TabviewProps, _Mapping]] = ..., chart_props: _Optional[_Union[ChartProps, _Mapping]] = ..., host_proxy_props: _Optional[_Union[HostProxyProps, _Mapping]] = ..., visibility: _Optional[_Union[VisibilityBinding, _Mapping]] = ..., bind_formats: _Optional[_Mapping[str, str]] = ..., obj_flags: _Optional[int] = ..., obj_flags_clear: _Optional[int] = ..., states: _Optional[int] = ..., scroll_dir: _Optional[int] = ..., grid_col_dsc: _Optional[_Iterable[int]] = ..., grid_row_dsc: _Optional[_Iterable[int]] = ..., bare: bool = ..., in_tab_bar: bool = ..., checked_when: _Optional[_Union[VisibilityBinding, _Mapping]] = ..., enabled_when: _Optional[_Union[VisibilityBinding, _Mapping]] = ..., color_when: _Optional[_Union[ColorBinding, _Mapping]] = ..., uid: _Optional[int] = ..., gestures: _Optional[_Iterable[_Union[GestureSpec, _Mapping]]] = ...) -> None: ...
+    def __init__(self, type: _Optional[_Union[WidgetType, str]] = ..., x: _Optional[int] = ..., y: _Optional[int] = ..., text: _Optional[str] = ..., bindings: _Optional[_Mapping[str, str]] = ..., event: _Optional[_Union[EventBinding, _Mapping]] = ..., layout: _Optional[_Union[Layout, _Mapping]] = ..., children: _Optional[_Iterable[_Union[WidgetNode, _Mapping]]] = ..., style_groups: _Optional[_Iterable[_Union[StyleGroup, _Mapping]]] = ..., obj_props: _Optional[_Union[ObjProps, _Mapping]] = ..., button_props: _Optional[_Union[ButtonProps, _Mapping]] = ..., label_props: _Optional[_Union[LabelProps, _Mapping]] = ..., slider_props: _Optional[_Union[SliderProps, _Mapping]] = ..., image_props: _Optional[_Union[ImageProps, _Mapping]] = ..., arc_props: _Optional[_Union[ArcProps, _Mapping]] = ..., bar_props: _Optional[_Union[BarProps, _Mapping]] = ..., switch_props: _Optional[_Union[SwitchProps, _Mapping]] = ..., checkbox_props: _Optional[_Union[CheckboxProps, _Mapping]] = ..., dropdown_props: _Optional[_Union[DropdownProps, _Mapping]] = ..., roller_props: _Optional[_Union[RollerProps, _Mapping]] = ..., textarea_props: _Optional[_Union[TextareaProps, _Mapping]] = ..., spinbox_props: _Optional[_Union[SpinboxProps, _Mapping]] = ..., spinner_props: _Optional[_Union[SpinnerProps, _Mapping]] = ..., led_props: _Optional[_Union[LedProps, _Mapping]] = ..., line_props: _Optional[_Union[LineProps, _Mapping]] = ..., scale_props: _Optional[_Union[ScaleProps, _Mapping]] = ..., buttonmatrix_props: _Optional[_Union[ButtonMatrixProps, _Mapping]] = ..., table_props: _Optional[_Union[TableProps, _Mapping]] = ..., tabview_props: _Optional[_Union[TabviewProps, _Mapping]] = ..., chart_props: _Optional[_Union[ChartProps, _Mapping]] = ..., host_proxy_props: _Optional[_Union[HostProxyProps, _Mapping]] = ..., visibility: _Optional[_Union[VisibilityBinding, _Mapping]] = ..., bind_formats: _Optional[_Mapping[str, str]] = ..., obj_flags: _Optional[int] = ..., obj_flags_clear: _Optional[int] = ..., states: _Optional[int] = ..., scroll_dir: _Optional[int] = ..., grid_col_dsc: _Optional[_Iterable[int]] = ..., grid_row_dsc: _Optional[_Iterable[int]] = ..., bare: bool = ..., in_tab_bar: bool = ..., checked_when: _Optional[_Union[VisibilityBinding, _Mapping]] = ..., enabled_when: _Optional[_Union[VisibilityBinding, _Mapping]] = ..., color_when: _Optional[_Union[ColorBinding, _Mapping]] = ..., hit_slop: _Optional[int] = ..., uid: _Optional[int] = ..., gestures: _Optional[_Iterable[_Union[GestureSpec, _Mapping]]] = ...) -> None: ...
 
 class TreePatchOp(_message.Message):
     __slots__ = ("kind", "target_uid", "parent_uid", "index", "node")
@@ -1124,16 +1139,20 @@ class EventBinding(_message.Message):
     def __init__(self, name: _Optional[str] = ..., trigger: _Optional[_Union[EventTrigger, str]] = ..., int_value: _Optional[int] = ..., include_widget_value: bool = ..., set_subject: _Optional[str] = ..., set_value: _Optional[int] = ..., toggle: bool = ..., notify_host: bool = ..., cmd: _Optional[_Union[CmdSpec, _Mapping]] = ..., cmd_by_value: _Optional[_Iterable[_Union[CmdSpec, _Mapping]]] = ...) -> None: ...
 
 class FieldPatch(_message.Message):
-    __slots__ = ("byte_offset", "byte_width", "kind", "wire_scale")
+    __slots__ = ("byte_offset", "byte_width", "kind", "wire_scale", "subject", "encoding")
     BYTE_OFFSET_FIELD_NUMBER: _ClassVar[int]
     BYTE_WIDTH_FIELD_NUMBER: _ClassVar[int]
     KIND_FIELD_NUMBER: _ClassVar[int]
     WIRE_SCALE_FIELD_NUMBER: _ClassVar[int]
+    SUBJECT_FIELD_NUMBER: _ClassVar[int]
+    ENCODING_FIELD_NUMBER: _ClassVar[int]
     byte_offset: int
     byte_width: int
     kind: PatchKind
     wire_scale: int
-    def __init__(self, byte_offset: _Optional[int] = ..., byte_width: _Optional[int] = ..., kind: _Optional[_Union[PatchKind, str]] = ..., wire_scale: _Optional[int] = ...) -> None: ...
+    subject: str
+    encoding: PatchEncoding
+    def __init__(self, byte_offset: _Optional[int] = ..., byte_width: _Optional[int] = ..., kind: _Optional[_Union[PatchKind, str]] = ..., wire_scale: _Optional[int] = ..., subject: _Optional[str] = ..., encoding: _Optional[_Union[PatchEncoding, str]] = ...) -> None: ...
 
 class CmdSpec(_message.Message):
     __slots__ = ("command_id", "root_template", "patches")
